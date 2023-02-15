@@ -19,7 +19,11 @@ const Hero = () => {
         </p>
 
         <div className="mt-6">
-          <Button text="View Foods"></Button>
+          <Button
+            text="View Foods"
+            bgColor="bg-primaryGreen"
+            textColor="text-white"
+          />
         </div>
       </div>
 

@@ -36,7 +36,11 @@ const Navbar = () => {
 
         {/* buttons */}
         <div className="flex gap-2 items-center justify-between">
-          <Button text="Sign Up/ Sign In" />
+          <Button
+            text="Sign Up/ Sign In"
+            bgColor="bg-primaryGreen"
+            textColor="text-white"
+          />
           <FaShoppingCart size={20} />
           <FaUser size={20} />
         </div>
