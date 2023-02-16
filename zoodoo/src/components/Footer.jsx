@@ -32,15 +32,12 @@ const Footer = () => {
             </h2>
             <ul class="text-gray-600 dark:text-gray-400">
               <li class="mb-4">
-                <a
-                  href="https://github.com/themesberg/flowbite"
-                  class="hover:underline "
-                >
+                <a href="#" class="hover:underline ">
                   Github
                 </a>
               </li>
               <li>
-                <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">
+                <a href="#" class="hover:underline">
                   Discord
                 </a>
               </li>
@@ -69,7 +66,7 @@ const Footer = () => {
       <div class="sm:flex sm:items-center sm:justify-between">
         <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
           © 2023{" "}
-          <a href="https://flowbite.com/" class="hover:underline">
+          <a href="#" class="hover:underline">
             Zoodo™
           </a>
           . All Rights Reserved.
