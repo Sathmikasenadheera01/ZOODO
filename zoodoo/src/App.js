@@ -4,7 +4,6 @@ import Button from "./components/Button";
 import Card from "./components/Card";
 import Features from "./components/Features";
 import Promo from "./components/Promo";
-import NewsLetter from "./components/NewsLetter";
 import Footer from "./components/Footer";
 
 import foodImg1 from "./images/food (1).jpg";
@@ -110,9 +109,6 @@ function App() {
 
         {/* promo section */}
         <Promo />
-
-        {/* news letter section */}
-        <NewsLetter />
       </div>
 
       {/* footer */}
