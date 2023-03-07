@@ -13,7 +13,7 @@ zoodoo/.pnp
 
 # dataset
 foodclassification
-zoodofoodclassification\images
+images/
 
 # misc
 .DS_Store
