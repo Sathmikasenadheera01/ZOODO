@@ -15,6 +15,10 @@ zoodoo/.pnp
 foodclassification
 images/
 
+# models
+zoodofoodclassification/zodoofoodclassification_model.h5
+zoodofoodclassification/zodoofoodclassification_model.hdf5
+
 # misc
 .DS_Store
 .env.local
