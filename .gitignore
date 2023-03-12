@@ -13,7 +13,7 @@ zoodoo/client/.pnp.js
 
 # dataset
 foodclassification
-images/
+foodimages/
 
 # models
 zoodofoodclassification/zodoofoodclassification_model.h5
