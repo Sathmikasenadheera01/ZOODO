@@ -5,7 +5,6 @@ const TextBox = (props) => {
     <input
       type={`${props.type}`}
       name=""
-      id=""
       className="rounded-lg border border-gray-400 h-11 outline-none w-full font-primary pl-3 mt-2 lg:mt-0"
       placeholder={`${props.fieldName}`}
     />

@@ -23,11 +23,11 @@ const card = (props) => {
 
       {/* buttons */}
       <div className="flex items-center justify-between mt-2">
-        <Button
-          text="Buy Now"
-          bgColor="bg-primaryGreen"
-          textColor="text-white"
-        />
+          <Button
+            text="Buy Now"
+            bgColor="bg-primaryGreen"
+            textColor="text-white"
+          />
         <FaShoppingCart size={20} />
       </div>
     </div>
