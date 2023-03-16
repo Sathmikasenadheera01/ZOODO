@@ -2,8 +2,12 @@
 
 # dependencies
 zoodoo/client/node_modules/
+zoodoo/server/node_modules
 zoodoo/client/.pnp
 zoodoo/client/.pnp.js
+
+# enviroment
+zoodoo/server/.env
 
 # testing
 /coverage
