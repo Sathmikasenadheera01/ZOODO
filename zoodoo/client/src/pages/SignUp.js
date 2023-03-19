@@ -66,7 +66,7 @@ const SignUp = () => {
           <img
             src={signupImg}
             alt="food dish"
-            className="rounded-l-lg h-full w-full object-cover hidden lg:block"
+            className="rounded-l-lg h-full w-full object-cover object-center hidden lg:block"
           />
         </div>
 
