@@ -4,3 +4,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* rounded-lg border border-gray-400 h-11 outline-none w-full font-primary pl-3 mt-2 lg:mt-0  */
+.textBox {
+  border-radius: 8px;
+  border: rgb(156 163 175) 1px solid;
+  padding: 10px 12px;
+  outline: none;
+  width: 100%;
+  font-family: "Poppins";
+}

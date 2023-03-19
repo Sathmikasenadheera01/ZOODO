@@ -58,7 +58,9 @@ const Navbar = () => {
           </Link>
 
           <FaShoppingCart size={20} />
-          <FaUser size={20} />
+          <Link to="../pages/Profile">
+            <FaUser size={20} />
+          </Link>
         </div>
       </nav>
     </div>
