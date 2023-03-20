@@ -1,22 +1,25 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import signupImg from "../images/signup.jpg";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 
-const SignUp = () => {
+const LogIn = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const [_, setCookies] = useCookies(["accessToken"]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:5000/auth/login", {
+    const response = await fetch("http://localhost:5000/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,6 +31,9 @@ const SignUp = () => {
     });
 
     const data = await response.json();
+    console.log(data);
+    setCookies("accessToken", data.jsonWebToken);
+    window.localStorage.setItem("userID", data.user);
 
     if (response.status === 400) {
       setError(data.message);
@@ -121,4 +127,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default LogIn;

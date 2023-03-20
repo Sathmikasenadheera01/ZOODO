@@ -118,4 +118,24 @@ userRouter.post("/login", async (req, res) => {
   });
 });
 
+//get all user
+userRouter.get("/", async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(400).json({ message: "cannot find a user" });
+  }
+});
+
+//get a single user
+userRouter.get("/:userID", async (req, res) => {
+  try {
+    const user = await User.findById({ _id: req.params.userID });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ message: "cannot find a user" });
+  }
+});
+
 module.exports = userRouter;

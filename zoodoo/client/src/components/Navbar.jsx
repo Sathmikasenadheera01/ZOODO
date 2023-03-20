@@ -4,8 +4,40 @@ import Button from "../components/Button";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { useState, useEffect } from "react";
+import { useGetUserID } from "../hooks/useUserID";
+import axios from "axios";
+
 const Navbar = () => {
-  // const [active, setActive] = useState("Home");
+  const [cookies, setCookies] = useCookies(["accessToken"]);
+  const navigate = useNavigate();
+  const [user, setUser] = useState("");
+  const userID = useGetUserID();
+
+  const logout = () => {
+    setCookies("accessToken", "");
+    setUser("");
+    window.localStorage.clear();
+    navigate("../pages/LogIn");
+  };
+
+  useEffect(() => {
+    const getLoggedInUser = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/users/${userID}`
+        );
+        console.log(response.data.firstName);
+        setUser(response.data.firstName);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getLoggedInUser();
+  }, [userID]);
 
   return (
     <div>
@@ -48,20 +80,31 @@ const Navbar = () => {
         </div>
 
         {/* buttons */}
-        <div className="flex gap-2 items-center justify-between">
-          <Link to="../pages/SignUp">
-            <Button
-              text="Sign Up/ Sign In"
-              bgColor="bg-primaryGreen"
-              textColor="text-white"
-            />
-          </Link>
 
-          <FaShoppingCart size={20} />
-          <Link to="../pages/Profile">
-            <FaUser size={20} />
-          </Link>
-        </div>
+        {!cookies.accessToken ? (
+          <div className="flex gap-2 items-center justify-between">
+            <Link to="../pages/SignUp">
+              <Button
+                text="Sign Up/ Sign In"
+                bgColor="bg-primaryGreen"
+                textColor="text-white"
+              />
+            </Link>
+          </div>
+        ) : (
+          <div className="flex gap-2 items-center justify-between">
+            <button
+              className="font-normal px-4 py-2 rounded-[5px] font-primary bg-red-500 text-white"
+              onClick={logout}
+            >
+              LogOut from {user}
+            </button>
+            <FaShoppingCart size={20} />
+            <Link to="../pages/Profile">
+              <FaUser size={20} />
+            </Link>
+          </div>
+        )}
       </nav>
     </div>
   );
