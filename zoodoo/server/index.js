@@ -2,7 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const userRouter = require("./routes/UserRoutes");
-
+const adminRouter = require("./routes/AdminRoutes");
+const foodItemRouter = require("./routes/ProductRoutes");
 //create express app
 const app = express();
 
@@ -12,6 +13,12 @@ app.use(express.json());
 
 //routes
 app.use("/users", userRouter);
+
+//admin route
+app.use("/admin", adminRouter);
+
+//fooditem
+app.use("/foods", foodItemRouter);
 
 const port = process.env.PORT || 5000;
 

@@ -18,27 +18,41 @@ const LogIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
-    const response = await fetch("http://localhost:5000/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
-
-    const data = await response.json();
-    console.log(data);
-    setCookies("accessToken", data.jsonWebToken);
-    window.localStorage.setItem("userID", data.user);
-
-    if (response.status === 400) {
-      setError(data.message);
+    if (email === "admin@zoodoo.com") {
+      const response = await fetch("http://localhost:5000/admin/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+      navigate("../pages/Admin");
+      console.log(response.json());
     } else {
-      navigate("../pages/Profile");
+      const response = await fetch("http://localhost:5000/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+      const data = await response.json();
+      if (response.status === 400) {
+        setError(data.message);
+      } else {
+        console.log(data);
+        setCookies("accessToken", data.jsonWebToken);
+        window.localStorage.setItem("userID", data.user);
+        navigate("../pages/Profile");
+      }
     }
   };
 
