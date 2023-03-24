@@ -17,7 +17,7 @@ const card = (props) => {
           {props.foodName}
         </h2>
         <p className="font-primary font-normal text-[16px] text-slate-900">
-          rs. {props.price}.00
+          rs {props.price}.00
         </p>
       </div>
 
