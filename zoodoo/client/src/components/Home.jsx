@@ -1,4 +1,6 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import Hero from "./Hero";
 import Button from "./Button";
@@ -6,14 +8,25 @@ import Card from "./Card";
 import Features from "./Features";
 import Promo from "./Promo";
 
-import foodImg1 from "../images/food (1).jpg";
-import foodImg2 from "../images/food (2).jpg";
-import foodImg3 from "../images/food (3).jpg";
-import foodImg4 from "../images/food (4).jpg";
-import foodImg5 from "../images/food (5).jpg";
 import whyusimg from "../images/whyus.jpg";
 
 const Home = () => {
+  const [foods, setFoods] = useState();
+
+  const fetchFoods = () => {
+    fetch("http://localhost:5000/foods")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setFoods(data);
+      });
+  };
+
+  useEffect(() => {
+    fetchFoods();
+  }, []);
+
   return (
     <div>
       <Hero />
@@ -34,20 +47,28 @@ const Home = () => {
 
         {/* button */}
         <div>
-          <Button
-            text="Discover More"
-            bgColor="bg-secondaryGreen"
-            textColor="text-black"
-          />
+          <Link to="../pages/Shop">
+            <Button
+              text="Discover More"
+              bgColor="bg-secondaryGreen"
+              textColor="text-black"
+            />
+          </Link>
         </div>
       </div>
 
       <div className="flex items-center flex-wrap gap-6 mt-4 mb-24 mx-auto justify-center">
-        <Card foodImage={foodImg1} foodName="Dosa" price="Rs 1550.00" />
-        <Card foodImage={foodImg2} foodName="Fried Rice" price="Rs 1450.00" />
-        <Card foodImage={foodImg3} foodName="Appetizer" price="Rs 1000.00" />
-        <Card foodImage={foodImg4} foodName="Biriyani" price="Rs 1950.00" />
-        <Card foodImage={foodImg5} foodName="Noodles" price="Rs 1550.00" />
+        {foods &&
+          foods
+            .slice(0, 5)
+            .map((food) => (
+              <Card
+                key={food._id}
+                foodImage={food.imageURL}
+                foodName={food.name}
+                price={food.price}
+              />
+            ))}
       </div>
 
       {/* why zoodoo */}

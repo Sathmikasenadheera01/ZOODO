@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
+import Shop from "./pages/Shop";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/pages/LogIn" element={<LogIn />} />
             <Route path="/pages/Profile" element={<Profile />} />
             <Route path="/pages/Admin" element={<Admin />} />
+            <Route path="/pages/Shop" element={<Shop />} />
           </Routes>
           {/* footer */}
         </div>

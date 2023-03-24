@@ -11,13 +11,13 @@ var foodSchema = new schema({
     type: Number,
     required: true,
   },
-  descripton: {
+  description: {
     type: String,
     required: true,
   },
-  image: {
-    data: Buffer,
-    contentType: String,
+  imageURL: {
+    type: String,
+    required: true,
   },
 });
 
