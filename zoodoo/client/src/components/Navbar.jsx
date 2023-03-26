@@ -26,9 +26,7 @@ const Navbar = () => {
   useEffect(() => {
     const getLoggedInUser = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/users/${userID}`
-        );
+        const response = await axios.get(`/users/${userID}`);
         console.log(response.data.firstName);
         setUser(response.data.firstName);
       } catch (err) {
