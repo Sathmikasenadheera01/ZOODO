@@ -5,14 +5,14 @@ import { useEffect, useState } from "react";
 const Shop = () => {
   const [foods, setFoods] = useState();
 
-  const fetchFoods = () => {
-    fetch("http://localhost:5000/foods")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setFoods(data);
-      });
+  const fetchFoods = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/foods");
+      const data = await response.json();
+      setFoods(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
