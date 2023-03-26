@@ -24,7 +24,7 @@ const Admin = () => {
       }),
     });
 
-    const data = await response.json();
+    // const data = await response.json();
     alert(`food item added successfully ${name}`);
 
     setName("");
