@@ -74,7 +74,7 @@ const LogIn = () => {
             {/* heading row */}
             <div>
               <h2 className="font-secondary font-bold text-2xl text-center lg:text-left">
-                Welcome Back - Log In
+                Hello! Welcome Back - Log In
               </h2>
               <p className="font-primary text-[16px] text-center lg:text-left">
                 Do Not Have an Account?{" "}
