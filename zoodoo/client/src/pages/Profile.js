@@ -13,9 +13,7 @@ const Profile = () => {
   useEffect(() => {
     const getLoggedInUser = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/users/${userID}`
-        );
+        const response = await axios.get(`/users/${userID}`);
         setUser(response.data);
       } catch (err) {
         console.log(err);

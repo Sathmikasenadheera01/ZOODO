@@ -7,7 +7,7 @@ const Shop = () => {
 
   const fetchFoods = async () => {
     try {
-      const response = await fetch("http://localhost:5000/foods");
+      const response = await fetch("/foods");
       const data = await response.json();
       setFoods(data);
     } catch (error) {

@@ -21,7 +21,7 @@ const LogIn = () => {
     setError("");
 
     if (email === "admin@zoodoo.com") {
-      const response = await fetch("http://localhost:5000/admin/login", {
+      const response = await fetch("/admin/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,7 +34,7 @@ const LogIn = () => {
       navigate("../pages/Admin");
       console.log(response.json());
     } else {
-      const response = await fetch("http://localhost:5000/users/login", {
+      const response = await fetch("/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
