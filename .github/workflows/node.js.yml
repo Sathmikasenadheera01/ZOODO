@@ -27,10 +27,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: 'zoodoo/**/package-lock.json'
-    - run: cd zoodoo
-    - run: cd server
-    - run: npm i
-    - run: cd ..
-    - run: cd client
-    - run: npm i
-    - run: npm run build --if-present
+    - run: |
+        cd zoodoo
+        cd server
+        npm i
+        cd ..
+        cd frontend
+        npm i
+        npm run build --if-present
