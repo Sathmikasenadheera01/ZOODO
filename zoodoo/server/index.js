@@ -4,6 +4,10 @@ const mongoose = require("mongoose");
 const userRouter = require("./routes/UserRoutes");
 const adminRouter = require("./routes/AdminRoutes");
 const foodRouter = require("./routes/ProductRoutes");
+const path = require("path");
+
+app.use(express.static(path.join(__dirname, "../client/build")));
+
 //create express app
 const app = express();
 
