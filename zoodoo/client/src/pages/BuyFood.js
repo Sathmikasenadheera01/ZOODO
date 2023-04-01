@@ -32,6 +32,7 @@ const BuyFood = () => {
         setFooditem(foodInfo);
       });
     });
+    // eslint-disable-next-line
   }, []);
 
   const minimizeCount = () => {
