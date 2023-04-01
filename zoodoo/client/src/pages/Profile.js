@@ -1,14 +1,46 @@
-import React from "react";
 import { useGetUserID } from "../hooks/useUserID";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { FaFire } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const userID = useGetUserID();
   const [user, setUser] = useState("");
   const [bmi, setBmi] = useState();
   const [healthStatus, setHealthStatus] = useState("");
+  const navigate = useNavigate();
+  const [foods, setFoods] = useState(null);
+  //let foodIndexArray = [];
+
+  useEffect(() => {
+    const fetchBuyHistory = async () => {
+      try {
+        const response = await fetch(`/buyHistory?UserID=${userID}`);
+        let data = await response.json();
+        console.log(typeof data);
+        console.log(data);
+        let foodArray = [];
+        for (let index = 0; index < data.length; index++) {
+          //let foodID = data[index].foodID;
+          // foodIndexArray.push(foodID);
+          await fetch(`/foods/${data[index].foodID}`).then(async (response) => {
+            await response.json().then(async (foodInfo) => {
+              foodArray.push(foodInfo);
+            });
+          });
+        }
+
+        setFoods(foodArray);
+        console.log(foodArray);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchBuyHistory();
+    // eslint-disable-next-line
+  }, [userID]);
 
   useEffect(() => {
     const getLoggedInUser = async () => {
@@ -19,7 +51,6 @@ const Profile = () => {
         console.log(err);
       }
     };
-
     const calculateBMI = () => {
       let height = user.height / 100;
       let weight = user.weight;
@@ -38,7 +69,11 @@ const Profile = () => {
 
     getLoggedInUser();
     calculateBMI();
-  }, [userID, user]);
+  }, [user, userID]);
+
+  if (!userID) {
+    navigate("/LogIn");
+  }
 
   return (
     <div className="">
@@ -85,98 +120,53 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
       {/* food history */}
-
-      <div>
+      <div className="mb-12">
         <h2 className="font-secondary text-lg text-primaryGreen mb-2 font-bold">
           Your Diet History
         </h2>
-        <div className="bg-slate-100 p-3 rounded-md flex gap-3 mb-3">
-          {/* food image */}
-          <div>
-            <img
-              src="https://res.cloudinary.com/dun7nbpup/image/upload/v1679639829/zoodoo/food_2_gnox0b.jpg"
-              alt=""
-              className="w-24 rounded-md"
-            />
-          </div>
-          {/* food name */}
-          <div>
-            <h3 className="font-semibold text-lg text-gray-800 font-primary">
-              Fried Rice
-            </h3>
-            <p className="font-primary text-gray-800 text-[14px]">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi,
-              sint.
-            </p>
-            {/* nutrition info */}
-            <div className="flex items-center justify-between mt-2">
-              <div className="flex gap-1 items-center">
-                <FaFire size={20} className="text-gray-800" />
-                <p className="font-primary text-gray-500">242 calories</p>
-              </div>
 
-              <div className="flex gap-1 items-center">
-                <FaFire size={20} className="text-gray-800" />
-                <p className="font-primary text-gray-500">18g Fat</p>
+        {foods &&
+          foods.map((food) => (
+            <div className="bg-slate-100 p-3 rounded-md flex gap-3 mb-3">
+              {/* food image */}
+              <div>
+                <img src={food.imageURL} alt="" className="w-24 rounded-md" />
               </div>
+              {/* food name */}
+              <div>
+                <h3 className="font-semibold text-lg text-gray-800 font-primary">
+                  {food.name}
+                </h3>
+                <p className="font-primary text-gray-800 text-[14px]">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Sequi, sint.
+                </p>
+                {/* nutrition info */}
+                <div className="flex items-center justify-between mt-2">
+                  <div className="flex gap-1 items-center">
+                    <FaFire size={20} className="text-gray-800" />
+                    <p className="font-primary text-gray-500">242 calories</p>
+                  </div>
 
-              <div className="flex gap-1 items-center">
-                <FaFire size={20} className="text-gray-800" />
-                <p className="font-primary text-gray-500">3g Carbs</p>
-              </div>
+                  <div className="flex gap-1 items-center">
+                    <FaFire size={20} className="text-gray-800" />
+                    <p className="font-primary text-gray-500">18g Fat</p>
+                  </div>
 
-              <div className="flex gap-1 items-center">
-                <FaFire size={20} className="text-gray-800" />
-                <p className="font-primary text-gray-500">16g Protein</p>
+                  <div className="flex gap-1 items-center">
+                    <FaFire size={20} className="text-gray-800" />
+                    <p className="font-primary text-gray-500">3g Carbs</p>
+                  </div>
+
+                  <div className="flex gap-1 items-center">
+                    <FaFire size={20} className="text-gray-800" />
+                    <p className="font-primary text-gray-500">16g Protein</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="bg-slate-100 p-3 rounded-md flex gap-3 mb-3">
-          {/* food image */}
-          <div>
-            <img
-              src="https://res.cloudinary.com/dun7nbpup/image/upload/v1679639829/zoodoo/food_2_gnox0b.jpg"
-              alt=""
-              className="w-24 rounded-md"
-            />
-          </div>
-          {/* food name */}
-          <div>
-            <h3 className="font-semibold text-lg text-gray-800 font-primary">
-              Fried Rice
-            </h3>
-            <p className="font-primary text-gray-800 text-[14px]">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi,
-              sint.
-            </p>
-            {/* nutrition info */}
-            <div className="flex items-center justify-between mt-2">
-              <div className="flex gap-1 items-center">
-                <FaFire size={20} className="text-gray-800" />
-                <p className="font-primary text-gray-500">242 calories</p>
-              </div>
-
-              <div className="flex gap-1 items-center">
-                <FaFire size={20} className="text-gray-800" />
-                <p className="font-primary text-gray-500">18g Fat</p>
-              </div>
-
-              <div className="flex gap-1 items-center">
-                <FaFire size={20} className="text-gray-800" />
-                <p className="font-primary text-gray-500">3g Carbs</p>
-              </div>
-
-              <div className="flex gap-1 items-center">
-                <FaFire size={20} className="text-gray-800" />
-                <p className="font-primary text-gray-500">16g Protein</p>
-              </div>
-            </div>
-          </div>
-        </div>
+          ))}
       </div>
     </div>
   );

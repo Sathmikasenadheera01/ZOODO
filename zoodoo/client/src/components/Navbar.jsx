@@ -20,7 +20,7 @@ const Navbar = () => {
     setCookies("accessToken", "");
     setUser("");
     window.localStorage.clear();
-    navigate("../pages/LogIn");
+    navigate("/LogIn");
   };
 
   useEffect(() => {
@@ -81,7 +81,7 @@ const Navbar = () => {
 
         {!cookies.accessToken ? (
           <div className="flex gap-2 items-center justify-between">
-            <Link to="../SignUp">
+            <Link to="/SignUp">
               <Button
                 text="Sign Up/ Sign In"
                 bgColor="bg-primaryGreen"
@@ -98,7 +98,7 @@ const Navbar = () => {
               LogOut from {user}
             </button>
             <FaShoppingCart size={20} />
-            <Link to="../Profile">
+            <Link to="/Profile">
               <FaUser size={20} />
             </Link>
           </div>

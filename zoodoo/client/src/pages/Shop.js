@@ -9,6 +9,7 @@ const Shop = () => {
     try {
       const response = await fetch("/foods");
       const data = await response.json();
+      console.log(data);
       setFoods(data);
     } catch (error) {
       console.error(error);
@@ -33,6 +34,7 @@ const Shop = () => {
               foodImage={food.imageURL}
               foodName={food.name}
               price={food.price}
+              id={food._id}
             />
           ))}
       </div>

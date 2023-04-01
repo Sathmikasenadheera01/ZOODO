@@ -39,4 +39,15 @@ foodRouter.get("/", async (req, res) => {
   }
 });
 
+//get a single products
+foodRouter.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const foodSelected = await Food.findById(id);
+    res.status(200).json(foodSelected);
+  } catch (error) {
+    res.status(400).json({ message: "cannot retrieve data" });
+  }
+});
+
 module.exports = foodRouter;

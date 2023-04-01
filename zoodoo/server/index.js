@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const userRouter = require("./routes/UserRoutes");
 const adminRouter = require("./routes/AdminRoutes");
 const foodRouter = require("./routes/ProductRoutes");
+const buyHistoryRoute = require("./routes/BuyHistory");
 const path = require("path");
 
 //create express app
@@ -24,6 +25,9 @@ app.use("/admin", adminRouter);
 
 //add food
 app.use("/foods", foodRouter);
+
+//buyHistory
+app.use("/buyHistory", buyHistoryRoute);
 
 const port = process.env.PORT || 5000;
 

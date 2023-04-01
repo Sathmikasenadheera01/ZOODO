@@ -51,7 +51,7 @@ const LogIn = () => {
         console.log(data);
         setCookies("accessToken", data.jsonWebToken);
         window.localStorage.setItem("userID", data.user);
-        navigate("../pages/Profile");
+        navigate("/Profile");
       }
     }
   };

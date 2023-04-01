@@ -24,7 +24,7 @@ const card = (props) => {
 
       {/* buttons */}
       <div className="flex items-center justify-between mt-2 px-2">
-        <Link to={`/buyFood/${props.key}`}>
+        <Link to={`/buyFood/${props.id}`}>
           <Button
             text="Buy Now"
             bgColor="bg-primaryGreen"
