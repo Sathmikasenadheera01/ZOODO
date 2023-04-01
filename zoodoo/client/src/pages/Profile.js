@@ -40,7 +40,7 @@ const Profile = () => {
 
     fetchBuyHistory();
     // eslint-disable-next-line
-  }, [userID]);
+  }, []);
 
   useEffect(() => {
     const getLoggedInUser = async () => {

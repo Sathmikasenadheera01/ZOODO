@@ -32,7 +32,7 @@ const BuyFood = () => {
         setFooditem(foodInfo);
       });
     });
-  }, [id]);
+  }, []);
 
   const minimizeCount = () => {
     if (count === 1) {
