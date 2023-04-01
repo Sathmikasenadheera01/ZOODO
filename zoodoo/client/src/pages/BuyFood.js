@@ -2,29 +2,29 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import { useGetUserID } from "../hooks/useUserID";
-import axios from "axios";
+// import axios from "axios";
 
 const BuyFood = () => {
   const { id } = useParams();
   const [foodItem, setFooditem] = useState("");
   const [count, setCount] = useState(1);
-  const [user, setUser] = useState(null);
+  //const [user, setUser] = useState(null);
   const userID = useGetUserID();
 
-  useEffect(() => {
-    const getLoggedInUser = async () => {
-      try {
-        const response = await axios.get(`/users/${userID}`);
-        console.log(response.data);
-        setUser(response.data);
-        console.log(user);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  // useEffect(() => {
+  //   const getLoggedInUser = async () => {
+  //     try {
+  //       const response = await axios.get(`/users/${userID}`);
+  //       console.log(response.data);
+  //       setUser(response.data);
+  //       console.log(user);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
 
-    getLoggedInUser();
-  }, [userID, user]);
+  //   getLoggedInUser();
+  // }, [userID, user]);
 
   useEffect(() => {
     fetch(`/foods/${id}`).then((response) => {
