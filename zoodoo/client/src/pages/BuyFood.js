@@ -24,7 +24,7 @@ const BuyFood = () => {
     };
 
     getLoggedInUser();
-  });
+  }, [userID, user]);
 
   useEffect(() => {
     fetch(`/foods/${id}`).then((response) => {
