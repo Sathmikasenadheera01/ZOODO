@@ -2,6 +2,7 @@ import React from "react";
 import Button from "./Button";
 
 import { FaShoppingCart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const card = (props) => {
   return (
@@ -23,11 +24,13 @@ const card = (props) => {
 
       {/* buttons */}
       <div className="flex items-center justify-between mt-2 px-2">
-        <Button
-          text="Buy Now"
-          bgColor="bg-primaryGreen"
-          textColor="text-white"
-        />
+        <Link to={`/buyFood/${props.key}`}>
+          <Button
+            text="Buy Now"
+            bgColor="bg-primaryGreen"
+            textColor="text-white"
+          />
+        </Link>
         <FaShoppingCart size={20} className="cursor-pointer text-red-500" />
       </div>
     </div>

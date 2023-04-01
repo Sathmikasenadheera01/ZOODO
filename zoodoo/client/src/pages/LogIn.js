@@ -78,7 +78,7 @@ const LogIn = () => {
               </h2>
               <p className="font-primary text-[16px] text-center lg:text-left">
                 Do Not Have an Account?{" "}
-                <Link to="../pages/SignUp">
+                <Link to="../SignUp">
                   <span className="font-primary text-primaryGreen">
                     Sign Up
                   </span>

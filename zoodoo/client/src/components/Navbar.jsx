@@ -53,13 +53,13 @@ const Navbar = () => {
             <Link to="/">
               <li> Home </li>
             </Link>
-            <Link to="/pages/Shop">
+            <Link to="/Shop">
               <li> Shop </li>
             </Link>
-            <Link to="/">
+            <Link to="/about">
               <li> About </li>
             </Link>
-            <Link to="/">
+            <Link to="/contact">
               <li> Contact </li>
             </Link>
 
@@ -81,7 +81,7 @@ const Navbar = () => {
 
         {!cookies.accessToken ? (
           <div className="flex gap-2 items-center justify-between">
-            <Link to="../pages/SignUp">
+            <Link to="../SignUp">
               <Button
                 text="Sign Up/ Sign In"
                 bgColor="bg-primaryGreen"
@@ -98,7 +98,7 @@ const Navbar = () => {
               LogOut from {user}
             </button>
             <FaShoppingCart size={20} />
-            <Link to="../pages/Profile">
+            <Link to="../Profile">
               <FaUser size={20} />
             </Link>
           </div>

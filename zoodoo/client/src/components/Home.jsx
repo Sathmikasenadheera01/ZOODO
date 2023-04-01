@@ -14,7 +14,7 @@ const Home = () => {
   const [foods, setFoods] = useState();
 
   const fetchFoods = () => {
-    fetch("http://localhost:5000/foods")
+    fetch("/foods")
       .then((response) => {
         return response.json();
       })
@@ -47,7 +47,7 @@ const Home = () => {
 
         {/* button */}
         <div>
-          <Link to="../pages/Shop">
+          <Link to="/Shop">
             <Button
               text="Discover More"
               bgColor="bg-secondaryGreen"

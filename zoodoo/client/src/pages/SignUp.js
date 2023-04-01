@@ -80,7 +80,7 @@ const SignUp = () => {
               </h2>
               <p className="font-primary text-[16px] text-center lg:text-left">
                 Already have an Account?{" "}
-                <Link to="../pages/LogIn">
+                <Link to="../LogIn">
                   <span className="font-primary text-primaryGreen">Log In</span>
                 </Link>
               </p>
