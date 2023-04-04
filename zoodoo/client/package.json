@@ -8,6 +8,7 @@
     "@emotion/styled": "^11.10.6",
     "@mui/material": "^5.11.13",
     "@mui/styled-engine-sc": "^5.11.11",
+    "@tensorflow/tfjs": "^4.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -50,5 +51,5 @@
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.6"
   },
-  "proxy":"http://localhost:5000"
+  "proxy": "http://localhost:5000"
 }
