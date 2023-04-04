@@ -1,7 +1,7 @@
 import { useGetUserID } from "../hooks/useUserID";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { FaFire } from "react-icons/fa";
+// import { FaFire } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
