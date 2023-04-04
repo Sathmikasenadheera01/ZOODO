@@ -3,7 +3,7 @@ const BuyHistory = require("../models/BuyHistory");
 
 const buyHistoryRoute = express.Router();
 
-buyHistoryRoute.post("/", async (req, res) => {
+buyHistoryRoute.post("/add", async (req, res) => {
   const { foodID, UserID } = req.body;
 
   //create a new user
