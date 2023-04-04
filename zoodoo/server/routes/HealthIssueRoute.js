@@ -17,11 +17,13 @@ HealthIssuesRoute.post("/add", async (req, res) => {
 });
 
 //get health issues
-HealthIssuesRoute.get("/:id", async (req, res) => {
-  const foodname = req.query.foodName;
+HealthIssuesRoute.get("/:foodname", async (req, res) => {
+  const { foodname } = req.params;
   try {
-    const healthIssues = await HealthIssues.find({ foodName: foodname });
-    res.status(200).json(buyHistory);
+    const healthIssues = await HealthIssues.find({
+      foodName: new RegExp(foodname, "i"),
+    });
+    res.status(200).json(healthIssues);
   } catch (error) {
     res.status(400).json({ message: "cannot retrieve data" });
   }

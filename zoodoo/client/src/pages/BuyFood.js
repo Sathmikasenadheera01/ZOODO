@@ -11,8 +11,8 @@ const BuyFood = () => {
   const [count, setCount] = useState(1);
   //const [user, setUser] = useState(null);
   const userID = useGetUserID();
-
   const [nutrients, setNutrients] = useState([]);
+  const [healthIssues, setHealthIssues] = useState("");
 
   // model part
   const [prediction, setPrediction] = useState(
@@ -41,8 +41,7 @@ const BuyFood = () => {
         setFooditem(foodInfo);
       });
     });
-    // eslint-disable-next-line
-  }, []);
+  }, [id]);
 
   const loadModel = async () => {
     const model = await tf.loadLayersModel(
@@ -154,14 +153,23 @@ const BuyFood = () => {
     }
   };
 
+  //show health issues
+  const showHealthIssues = () => {
+    fetch(`/healthIssues/${foodItem.name}`).then((response) => {
+      response.json().then((healthIssuesSet) => {
+        setHealthIssues(healthIssuesSet);
+      });
+    });
+    console.log(healthIssues);
+  };
+
   const showNutritions = async () => {
     const image = await loadImage(foodItem.imageURL);
     await predict(image);
     const data = await apiCall();
     const dataNutrients = await data.foods[0];
-    console.log(dataNutrients.nf_calories);
     setNutrients(dataNutrients);
-    console.log(dataNutrients.serving_weight_grams);
+    showHealthIssues();
   };
 
   const minimizeCount = () => {
@@ -275,7 +283,7 @@ const BuyFood = () => {
       </section>
 
       {/* nutrition report */}
-      <section className="md:flex items-start justify-start my-20 bg-secondaryGreen px-4 py-3 rounded-md gap-10">
+      <section className="md:flex items-start justify-start my-20 bg-secondaryGreen px-4 py-5 rounded-md gap-10">
         <div className="basis-1/2">
           <h1 className="font-bold text-black font-secondary text-xl">
             Zoodoo Nutrition report
@@ -293,6 +301,17 @@ const BuyFood = () => {
             We give you standard nutrients values. these values can be vary
             according to ingredients and brands.
           </p>
+
+          <p className="mt-3 font-primary">
+            If you continuosly eat foods like this, You may have;
+          </p>
+          <div className="bg-red-500 text-white font-primary rounded-md mt-3 p-3">
+            <p>
+              {healthIssues
+                ? healthIssues[0].healthIssues
+                : "future health diseases will display here"}
+            </p>
+          </div>
         </div>
 
         <div>
@@ -308,7 +327,7 @@ const BuyFood = () => {
             </div>
             <div className="font-primary font-medium bg-green-300 my-2 rounded-md px-2 py-1">
               <span>
-                Number of Calories:{" "}
+                Number of Calories:
                 {nutrients ? nutrients.nf_calories : "press button"}
               </span>
             </div>
@@ -319,13 +338,13 @@ const BuyFood = () => {
             </div>
             <div className="font-primary font-medium bg-green-300 my-2 rounded-md px-2 py-1">
               <span>
-                carbohydrate(g):{" "}
+                carbohydrate(g):
                 {nutrients ? nutrients.nf_total_carbohydrate : "press button"}
               </span>
             </div>
             <div className="font-primary font-medium bg-green-300 my-2 rounded-md px-2 py-1">
               <span>
-                Total fat(g):{" "}
+                Total fat(g):
                 {nutrients ? nutrients.nf_total_fat : "press button"}
               </span>
             </div>
