@@ -70,16 +70,18 @@ img{
 }
 
 #students{
-	padding-left: 200px;
+	padding-left: 100px;
 	margin-top:70px;
 	display:grid;
 	grid-template-columns:auto auto auto auto;
 }
 
 #students2{
-	padding-left: 375px;
+	padding-left: 250px;
 	margin-top:70px;
-	display:grid;
+	padding-bottom:70px;
+	align-items: center;
+	display:flex;
 	grid-template-columns:auto auto auto auto;
 }
 .studentPhoto{

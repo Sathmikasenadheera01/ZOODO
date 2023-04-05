@@ -1,6 +1,10 @@
 import React from 'react';
 import './css_pages/about_us.css';
-
+import St1 from './student1.jpg';
+import St2 from './student2.jpg';
+import St3 from './student3.jpg';
+import St4 from './student4.jpg';
+import St5 from './student5.jpg';
 
 function AboutUs() {
   return (
@@ -11,7 +15,7 @@ function AboutUs() {
       <div id="students">
         <div className="studentBox">
           <div className="imgArea">
-            <img className="studentPhoto" src="./photos/About_us/student1.jpg" alt="Diadri" />
+            <img className="studentPhoto" src={St1} alt="Diadri" />
             <div className="studentLayer">
               <p className="studentDesc">Diadri Weerasekara</p>
               <p className="studentDesc">w1867123</p>
@@ -21,7 +25,7 @@ function AboutUs() {
         </div>
         <div className="studentBox">
           <div className="imgArea">
-            <img className="studentPhoto" src="./photos/About_us/student2.jpg" alt="Chamindu" />
+            <img className="studentPhoto" src={St2} alt="Chamindu" />
             <div className="studentLayer">
               <p className="studentDesc">Chamindu Moramudali</p>
               <p className="studentDesc">w1870554</p>
@@ -31,7 +35,7 @@ function AboutUs() {
         </div>
         <div className="studentBox">
           <div className="imgArea">
-            <img className="studentPhoto" src="./photos/About_us/student3.jpg" alt="Sathmika" />
+            <img className="studentPhoto" src={St3} alt="Sathmika" />
             <div className="studentLayer">
               <p className="studentDesc">Kulunu Sathmika</p>
               <p className="studentDesc">w1867671</p>
@@ -43,7 +47,7 @@ function AboutUs() {
       <div id="students2">
         <div className="studentBox">
           <div className="imgArea">
-            <img className="studentPhoto" src="./photos/About_us/student4.jpg" alt="Uthpala" />
+            <img className="studentPhoto" src={St4} alt="Uthpala" />
             <div className="studentLayer">
               <p className="studentDesc">Uthpala Jagodage</p>
               <p className="studentDesc">w1867446</p>
@@ -53,7 +57,7 @@ function AboutUs() {
         </div>
         <div className="studentBox">
           <div className="imgArea">
-            <img className="studentPhoto" src="./photos/About_us/student5.jpg" alt="Akshyani" />
+            <img className="studentPhoto" src={St5} alt="Akshyani" />
             <div className="studentLayer">
               <p className="studentDesc">Shatheesh Akshyani</p>
               <p className="studentDesc">w1870582</p>
