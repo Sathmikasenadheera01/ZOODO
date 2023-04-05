@@ -5,6 +5,7 @@ const userRouter = require("./routes/UserRoutes");
 const adminRouter = require("./routes/AdminRoutes");
 const foodRouter = require("./routes/ProductRoutes");
 const buyHistoryRoute = require("./routes/BuyHistory");
+const HealthIssuesRoute = require("./routes/HealthIssueRoute");
 const path = require("path");
 
 //create express app
@@ -28,6 +29,9 @@ app.use("/foods", foodRouter);
 
 //buyHistory
 app.use("/buyHistory", buyHistoryRoute);
+
+//health issues
+app.use("/healthIssues", HealthIssuesRoute);
 
 const port = process.env.PORT || 5000;
 

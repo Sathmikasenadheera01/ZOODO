@@ -11,6 +11,8 @@ const BuyFood = () => {
   const [count, setCount] = useState(1);
   //const [user, setUser] = useState(null);
   const userID = useGetUserID();
+  const [nutrients, setNutrients] = useState([]);
+  const [healthIssues, setHealthIssues] = useState("");
 
   // model part
   const [prediction, setPrediction] = useState(
@@ -39,8 +41,7 @@ const BuyFood = () => {
         setFooditem(foodInfo);
       });
     });
-    // eslint-disable-next-line
-  }, []);
+  }, [id]);
 
   const loadModel = async () => {
     const model = await tf.loadLayersModel(
@@ -126,9 +127,49 @@ const BuyFood = () => {
     });
   };
 
+  const apiCall = async () => {
+    // nutrition api call
+    try {
+      const response = await fetch(
+        "https://trackapi.nutritionix.com/v2/natural/nutrients",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-app-id": "d11e2b85",
+            "x-app-key": "0d432fc21d533c492dc7967e56a4d0b4",
+          },
+          body: JSON.stringify({
+            query: prediction,
+            timezone: "US/Eastern",
+          }),
+        }
+      );
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      alert(err);
+      console.log(err);
+    }
+  };
+
+  //show health issues
+  const showHealthIssues = () => {
+    fetch(`/healthIssues/${foodItem.name}`).then((response) => {
+      response.json().then((healthIssuesSet) => {
+        setHealthIssues(healthIssuesSet);
+      });
+    });
+    console.log(healthIssues);
+  };
+
   const showNutritions = async () => {
     const image = await loadImage(foodItem.imageURL);
-    predict(image);
+    await predict(image);
+    const data = await apiCall();
+    const dataNutrients = await data.foods[0];
+    setNutrients(dataNutrients);
+    showHealthIssues();
   };
 
   const minimizeCount = () => {
@@ -143,11 +184,30 @@ const BuyFood = () => {
     setCount(count + 1);
   };
 
-  const handleBuyNow = () => {
+  const handleBuyNow = async () => {
     if (!userID) {
       alert("please login first");
     } else {
-      alert("good");
+      const foodID = foodItem._id;
+      const UserID = userID;
+      const response = await fetch("/buyHistory/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          foodID,
+          UserID,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 400) {
+        alert(data.message);
+      } else {
+        alert("food added to your history");
+      }
     }
   };
 
@@ -212,7 +272,10 @@ const BuyFood = () => {
 
           {/* generate health report button */}
           <div className="mt-16">
-            <button className="px-4 py-2 rounded-[5px] font-primary bg-primaryGreen text-white font-medium" onClick={showNutritions}>
+            <button
+              className="px-4 py-2 rounded-[5px] font-primary bg-primaryGreen text-white font-medium"
+              onClick={showNutritions}
+            >
               Generate Health Report
             </button>
           </div>
@@ -220,7 +283,7 @@ const BuyFood = () => {
       </section>
 
       {/* nutrition report */}
-      <section className="md:flex items-start justify-start my-20 bg-secondaryGreen px-4 py-3 rounded-md gap-10">
+      <section className="md:flex items-start justify-start my-20 bg-secondaryGreen px-4 py-5 rounded-md gap-10">
         <div className="basis-1/2">
           <h1 className="font-bold text-black font-secondary text-xl">
             Zoodoo Nutrition report
@@ -233,12 +296,62 @@ const BuyFood = () => {
               ? prediction
               : "cannot identify selected food correctly. we are sorry!"}
           </p>
+
+          <p className="bg-red-500 p-2 text-white font-primary rounded-md mt-3">
+            We give you standard nutrients values. these values can be vary
+            according to ingredients and brands.
+          </p>
+
+          <p className="mt-3 font-primary">
+            If you continuosly eat foods like this, You may have;
+          </p>
+          <div className="bg-red-500 text-white font-primary rounded-md mt-3 p-3">
+            <p>
+              {healthIssues
+                ? healthIssues[0].healthIssues
+                : "future health diseases will display here"}
+            </p>
+          </div>
         </div>
 
         <div>
           <h1 className="font-bold text-gray-700 font-secondary text-xl">
             Nutritional Values of this food
           </h1>
+          <div className="rounded-md p-3 font-primary">
+            <div className="font-primary font-medium bg-green-300 my-2 rounded-md px-2 py-1">
+              <span>
+                Serving Weight(g)/ quantity:{" "}
+                {nutrients ? nutrients.serving_weight_grams : "press button"}
+              </span>
+            </div>
+            <div className="font-primary font-medium bg-green-300 my-2 rounded-md px-2 py-1">
+              <span>
+                Number of Calories:
+                {nutrients ? nutrients.nf_calories : "press button"}
+              </span>
+            </div>
+            <div className="font-primary font-medium bg-green-300 my-2 rounded-md px-2 py-1">
+              <span>
+                Protein(g): {nutrients ? nutrients.nf_protein : "press button"}
+              </span>
+            </div>
+            <div className="font-primary font-medium bg-green-300 my-2 rounded-md px-2 py-1">
+              <span>
+                carbohydrate(g):
+                {nutrients ? nutrients.nf_total_carbohydrate : "press button"}
+              </span>
+            </div>
+            <div className="font-primary font-medium bg-green-300 my-2 rounded-md px-2 py-1">
+              <span>
+                Total fat(g):
+                {nutrients ? nutrients.nf_total_fat : "press button"}
+              </span>
+            </div>
+            <div className="font-primary font-medium bg-green-300 my-2 rounded-md px-2 py-1">
+              <span>sugar(g): {nutrients.nf_sugars}</span>
+            </div>
+          </div>
         </div>
       </section>
     </div>

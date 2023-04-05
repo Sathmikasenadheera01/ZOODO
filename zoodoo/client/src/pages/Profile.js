@@ -2,6 +2,7 @@ import { useGetUserID } from "../hooks/useUserID";
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { FaFire } from "react-icons/fa";
+
 import { useNavigate } from "react-router-dom";
 import * as tf from "@tensorflow/tfjs";
 
@@ -312,23 +313,23 @@ const Profile = () => {
                 {/* nutrition info */}
                 <div className="flex items-center justify-between mt-2">
                   <div className="flex gap-1 items-center">
-                    <FaFire size={20} className="text-gray-800" />
-                    <p className="font-primary text-gray-500">242 calories</p>
+                    {/* <FaFire size={20} className="text-gray-800" /> */}
+                    {/* <p className="font-primary text-gray-500">242 calories</p> */}
                   </div>
 
                   <div className="flex gap-1 items-center">
-                    <FaFire size={20} className="text-gray-800" />
-                    <p className="font-primary text-gray-500">18g Fat</p>
+                    {/* <FaFire size={20} className="text-gray-800" /> */}
+                    {/* <p className="font-primary text-gray-500">18g Fat</p> */}
                   </div>
 
                   <div className="flex gap-1 items-center">
-                    <FaFire size={20} className="text-gray-800" />
-                    <p className="font-primary text-gray-500">3g Carbs</p>
+                    {/* <FaFire size={20} className="text-gray-800" /> */}
+                    {/* <p className="font-primary text-gray-500">3g Carbs</p> */}
                   </div>
 
                   <div className="flex gap-1 items-center">
-                    <FaFire size={20} className="text-gray-800" />
-                    <p className="font-primary text-gray-500">16g Protein</p>
+                    {/* <FaFire size={20} className="text-gray-800" /> */}
+                    {/* <p className="font-primary text-gray-500">16g Protein</p> */}
                   </div>
                 </div>
               </div>

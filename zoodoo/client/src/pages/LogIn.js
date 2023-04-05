@@ -31,7 +31,7 @@ const LogIn = () => {
           password,
         }),
       });
-      navigate("../pages/Admin");
+      navigate("/Admin");
       console.log(response.json());
     } else {
       const response = await fetch("/users/login", {
