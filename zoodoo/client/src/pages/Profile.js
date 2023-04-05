@@ -1,8 +1,9 @@
 import { useGetUserID } from "../hooks/useUserID";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaFire } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import * as tf from "@tensorflow/tfjs";
 
 const Profile = () => {
   const userID = useGetUserID();
@@ -12,6 +13,20 @@ const Profile = () => {
   const navigate = useNavigate();
   const [foods, setFoods] = useState(null);
   //let foodIndexArray = [];
+
+  //model loading
+  const [isModelLoading, setIsModelLoading] = useState(false);
+  const [model, setModel] = useState(null);
+  const [prediction, setPrediction] = useState([]);
+  const [imageURL, setImageURL] = useState(null);
+  const imageRef = useRef();
+  const fileInputRef = useRef();
+
+  //use effect function to load the model when first rendering the web page
+  useEffect(() => {
+    loadModel();
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     const fetchBuyHistory = async () => {
@@ -71,6 +86,115 @@ const Profile = () => {
     calculateBMI();
   }, [user, userID]);
 
+  //load model function
+  const loadModel = async () => {
+    setIsModelLoading(true);
+    try {
+      const model = await tf.loadLayersModel(
+        "https://raw.githubusercontent.com/Sathmikasenadheera01/mltesting/master/zodoofoodclassification_model_tfjs/model.json"
+      );
+      setModel(model);
+      setIsModelLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsModelLoading(false);
+    }
+  };
+
+  //upload image function
+  const uploadImage = (e) => {
+    const { files } = e.target;
+    if (files.length > 0) {
+      const url = URL.createObjectURL(files[0]);
+      setImageURL(url);
+    } else {
+      setImageURL(null);
+    }
+  };
+
+  //predict function
+  const predict = async (img) => {
+    const foodList = [
+      "apple_pie",
+      "cheesecake",
+      "chicken_curry",
+      "chicken_wings",
+      "chocolate_cake",
+      "chocolate_mousse",
+      "club_sandwich",
+      "donuts",
+      "fish_and_chips",
+      "french_fries",
+      "french_toast",
+      "fried_rice",
+      "frozen_yogurt",
+      "garlic_bread",
+      "greek_salad",
+      "hamburger",
+      "hot_dog",
+      "ice_cream",
+      "lasagna",
+      "macaroni_and_cheese",
+      "omelette",
+      "pancakes",
+      "pizza",
+      "ramen",
+      "samosa",
+      "shrimp_and_grits",
+      "spaghetti_carbonara",
+      "spring_rolls",
+      "steak",
+      "strawberry_shortcake",
+      "sushi",
+      "tacos",
+      "waffles",
+    ];
+
+    const tensor = tf.browser
+      .fromPixels(img)
+      .resizeNearestNeighbor([299, 299])
+      .toFloat()
+      .div(tf.scalar(255))
+      .expandDims();
+
+    const predictions = await model.predict(tensor).array();
+    if (Math.max(...predictions[0]) < 0.99) {
+      setPrediction("");
+    } else {
+      var predictedClassIndex = predictions[0].indexOf(
+        Math.max(...predictions[0])
+      );
+      console.log(predictedClassIndex);
+      console.log(foodList[predictedClassIndex]);
+      const predictedFood = foodList[predictedClassIndex];
+      const finalPrediction = predictedFood.replace("_", " ");
+      setPrediction(finalPrediction);
+    }
+  };
+
+  // image preprocessing
+  const loadImage = async (imageUrl) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        resolve(img);
+      };
+      img.onerror = reject;
+      img.src = imageUrl;
+    });
+  };
+
+  //main function
+  const showNutritions = async () => {
+    const image = await loadImage(imageURL);
+    await predict(image);
+  };
+
+  if (isModelLoading) {
+    return <h2>Model Loading...</h2>;
+  }
+
   if (!userID) {
     navigate("/LogIn");
   }
@@ -120,6 +244,49 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      
+      <div className="bg-secondaryGreen w-full p-4 rounded-md mb-6 flex items-start justify-between">
+        <div>
+          <div>
+            <input
+              type="file"
+              accept="image/*"
+              capture="camera"
+              className="textBox"
+              onChange={uploadImage}
+              ref={fileInputRef}
+            />
+          </div>
+          <div>
+            {imageURL && (
+              <button
+                className="font-normal px-4 py-2 rounded-[5px] font-primary bg-primaryGreen text-white my-4"
+                onClick={showNutritions}
+              >
+                Identify Image
+              </button>
+            )}
+          </div>
+          {/* prediction info div */}
+          {prediction.length > 0 ? (
+            <div className="my-4 font-primary">{prediction}</div>
+          ):<div className="my-4 font-primary">This is not a food</div>}
+        </div>
+        <div>
+          <div>
+            {imageURL && (
+              <img
+                src={imageURL}
+                alt="Upload Preview"
+                crossOrigin="anonymous"
+                ref={imageRef}
+                className="w-56"
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* food history */}
       <div className="mb-12">
         <h2 className="font-secondary text-lg text-primaryGreen mb-2 font-bold">
