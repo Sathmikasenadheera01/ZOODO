@@ -14,6 +14,9 @@ const Profile = () => {
   const [foods, setFoods] = useState(null);
   //let foodIndexArray = [];
 
+  const [nutrients, setNutrients] = useState([]);
+  const [healthIssues, setHealthIssues] = useState("");
+
   //model loading
   const [isModelLoading, setIsModelLoading] = useState(false);
   const [model, setModel] = useState(null);
@@ -25,6 +28,10 @@ const Profile = () => {
   //use effect function to load the model when first rendering the web page
   useEffect(() => {
     loadModel();
+    setPrediction([]);
+    setImageURL(null);
+    setNutrients([]);
+    setHealthIssues("");
     // eslint-disable-next-line
   }, []);
 
@@ -158,8 +165,11 @@ const Profile = () => {
       .expandDims();
 
     const predictions = await model.predict(tensor).array();
-    if (Math.max(...predictions[0]) < 0.99) {
-      setPrediction("");
+    console.log(predictions);
+    if (Math.max(...predictions[0]) < 0.7) {
+      setPrediction(
+        "Zoodoo classification model cannot identify this image correctly! sorry!"
+      );
     } else {
       var predictedClassIndex = predictions[0].indexOf(
         Math.max(...predictions[0])
@@ -185,10 +195,50 @@ const Profile = () => {
     });
   };
 
+  //api call to get nutrients
+  const apiCall = async () => {
+    try {
+      const response = await fetch(
+        "https://trackapi.nutritionix.com/v2/natural/nutrients",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-app-id": "d11e2b85",
+            "x-app-key": "0d432fc21d533c492dc7967e56a4d0b4",
+          },
+          body: JSON.stringify({
+            query: prediction,
+            timezone: "US/Eastern",
+          }),
+        }
+      );
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      alert(err);
+      console.log(err);
+    }
+  };
+
+  //display health issues
+  const showHealthIssues = () => {
+    fetch(`/healthIssues/${prediction}`).then((response) => {
+      response.json().then((healthIssuesSet) => {
+        setHealthIssues(healthIssuesSet);
+      });
+    });
+    console.log(healthIssues);
+  };
+
   //main function
   const showNutritions = async () => {
     const image = await loadImage(imageURL);
     await predict(image);
+    const data = await apiCall();
+    const dataNutrients = await data.foods[0];
+    setNutrients(dataNutrients);
+    showHealthIssues();
   };
 
   if (isModelLoading) {
@@ -244,7 +294,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="bg-secondaryGreen w-full p-4 rounded-md mb-6 flex items-start justify-between">
         <div>
           <div>
@@ -268,10 +318,72 @@ const Profile = () => {
             )}
           </div>
           {/* prediction info div */}
-          {prediction.length > 0 ? (
-            <div className="my-4 font-primary">{prediction}</div>
-          ):<div className="my-4 font-primary">This is not a food</div>}
+          <div className="px-3 my-2 rounded-md border border-primaryGreen w-fit">
+            {prediction.length > 0 ? (
+              <div className="my-2 font-primary">{prediction}</div>
+            ) : (
+              <div className="my-2 font-primary">
+                Zoodoo food classification model Identified food name will
+                display here
+              </div>
+            )}
+          </div>
+          {/* nutrients details */}
+
+          <div>
+            <h1 className="font-bold text-gray-700 font-secondary text-xl">
+              Nutritional Values of this food
+            </h1>
+            <div className="rounded-md p-3 font-primary">
+              <div className="font-primary font-medium bg-green-300 my-2 rounded-md px-2 py-1 w-fit">
+                <span>
+                  Serving Weight(g)/ quantity:{" "}
+                  {nutrients ? nutrients.serving_weight_grams : "press button"}
+                </span>
+              </div>
+              <div className="font-primary font-medium bg-green-300 my-2 rounded-md px-2 py-1 w-fit">
+                <span>
+                  Number of Calories:
+                  {nutrients ? nutrients.nf_calories : "press button"}
+                </span>
+              </div>
+              <div className="font-primary font-medium bg-green-300 my-2 rounded-md px-2 py-1 w-fit">
+                <span>
+                  Protein(g):{" "}
+                  {nutrients ? nutrients.nf_protein : "press button"}
+                </span>
+              </div>
+              <div className="font-primary font-medium bg-green-300 my-2 rounded-md px-2 py-1 w-fit">
+                <span>
+                  carbohydrate(g):
+                  {nutrients ? nutrients.nf_total_carbohydrate : "press button"}
+                </span>
+              </div>
+              <div className="font-primary font-medium bg-green-300 my-2 rounded-md px-2 py-1 w-fit">
+                <span>
+                  Total fat(g):
+                  {nutrients ? nutrients.nf_total_fat : "press button"}
+                </span>
+              </div>
+              <div className="font-primary font-medium bg-green-300 my-2 rounded-md px-2 py-1 w-fit">
+                <span>sugar(g): {nutrients.nf_sugars}</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <p className="mt-3 font-primary">
+              If you continuosly eat foods like this, You may have;
+            </p>
+            <div className="bg-red-500 text-white font-primary rounded-md mt-3 p-3 w-fit">
+              <p>
+                {healthIssues
+                  ? healthIssues[0].healthIssues
+                  : "future health diseases will display here"}
+              </p>
+            </div>
+          </div>
         </div>
+
         <div>
           <div>
             {imageURL && (

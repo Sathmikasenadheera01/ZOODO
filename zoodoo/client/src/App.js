@@ -14,7 +14,7 @@ function App() {
   return (
     <Router>
       <div>
-        <div className="px-4 md:px-12 lg:px-36 max-w-screen-xl 2xl:px-0 mx-auto">
+        <div className="px-4 md:px-12 lg:px-36 max-w-screen-xl 2xl:px-0 mx-auto min-h-screen">
           <Navbar />
 
           <Routes>
