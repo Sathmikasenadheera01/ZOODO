@@ -1,9 +1,9 @@
 import { useGetUserID } from "../hooks/useUserID";
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
-
 import { useNavigate } from "react-router-dom";
 import * as tf from "@tensorflow/tfjs";
+import { dietPlans } from "../constants/dietPlans.js";
 
 const Profile = () => {
   const userID = useGetUserID();
@@ -25,6 +25,9 @@ const Profile = () => {
   const imageRef = useRef();
   const fileInputRef = useRef();
 
+  const [dietPlansName, setDietPlansName] = useState([]);
+  const [dietPlansDescription, setDietPlansDescription] = useState([]);
+
   //use effect function to load the model when first rendering the web page
   useEffect(() => {
     loadModel();
@@ -32,6 +35,8 @@ const Profile = () => {
     setImageURL(null);
     setNutrients([]);
     setHealthIssues("");
+    setDietPlansName([]);
+    setDietPlansDescription([]);
     // eslint-disable-next-line
   }, []);
 
@@ -64,34 +69,54 @@ const Profile = () => {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    const getLoggedInUser = async () => {
-      try {
-        const response = await axios.get(`/users/${userID}`);
-        setUser(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    const calculateBMI = () => {
-      let height = user.height / 100;
-      let weight = user.weight;
-      let bmiValue = weight / (height * height);
-      bmiValue = bmiValue.toFixed(2);
-      setBmi(bmiValue);
+  // useEffect(() => {
+  //   const getLoggedInUser = async () => {
+  //     try {
+  //       const response = await axios.get(`/users/${userID}`);
+  //       setUser(response.data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   const calculateBMI = () => {
+  //     let height = user.height / 100;
+  //     let weight = user.weight;
+  //     let bmiValue = weight / (height * height);
+  //     bmiValue = bmiValue.toFixed(2);
+  //     setBmi(bmiValue);
 
-      if (bmiValue >= 18.0 && bmiValue <= 25.0) {
-        setHealthStatus("Healthy");
-      } else if (bmiValue > 25.0 && bmiValue < 30.0) {
-        setHealthStatus("Over Weight");
-      } else if (bmiValue >= 30.0) {
-        setHealthStatus("Obesity");
-      }
-    };
+  //     if (bmiValue >= 18.0 && bmiValue <= 25.0) {
+  //       setHealthStatus("Balanced Diet");
 
-    getLoggedInUser();
-    calculateBMI();
-  }, [user, userID]);
+  //       const obeseDietPlan = dietPlans.filter(
+  //         (plan) => plan.name === "Balanced Diet"
+  //       )[0];
+  //       console.log(obeseDietPlan.description);
+  //       setDietPlansName(obeseDietPlan.name);
+  //       setDietPlansDescription(obeseDietPlan.description);
+  //     } else if (bmiValue > 25.0 && bmiValue < 30.0) {
+  //       setHealthStatus("Over Weight");
+
+  //       const obeseDietPlan = dietPlans.filter(
+  //         (plan) => plan.name === "Weight Loss"
+  //       )[0];
+  //       console.log(obeseDietPlan.description);
+  //       setDietPlansName(obeseDietPlan.name);
+  //       setDietPlansDescription(obeseDietPlan.description);
+  //     } else if (bmiValue >= 30.0) {
+  //       setHealthStatus("Obesity");
+
+  //       const obeseDietPlan = dietPlans.filter(
+  //         (plan) => plan.name === "Obese"
+  //       )[0];
+  //       console.log(obeseDietPlan.description);
+  //       setDietPlansName(obeseDietPlan.name);
+  //       setDietPlansDescription(obeseDietPlan.description);
+  //     }
+  //   };
+  //   getLoggedInUser();
+  //   calculateBMI();
+  // }, [user, userID]);
 
   //load model function
   const loadModel = async () => {
@@ -107,6 +132,56 @@ const Profile = () => {
       setIsModelLoading(false);
     }
   };
+
+  useEffect(() => {
+    const getLoggedInUser = async () => {
+      try {
+        const response = await axios.get(`/users/${userID}`);
+        setUser(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getLoggedInUser();
+  }, [userID]);
+
+  useEffect(() => {
+    const calculateBMI = () => {
+      let height = user.height / 100;
+      let weight = user.weight;
+      let bmiValue = weight / (height * height);
+      bmiValue = bmiValue.toFixed(2);
+      setBmi(bmiValue);
+
+      if (bmiValue >= 18.0 && bmiValue <= 25.0) {
+        setHealthStatus("Balanced Diet");
+
+        const balancedDietPlan = dietPlans.find(
+          (plan) => plan.name === "Balanced Diet"
+        );
+        console.log(balancedDietPlan.description);
+        setDietPlansName(balancedDietPlan.name);
+        setDietPlansDescription(balancedDietPlan.description);
+      } else if (bmiValue > 25.0 && bmiValue < 30.0) {
+        setHealthStatus("Over Weight");
+
+        const overWeightDietPlan = dietPlans.find(
+          (plan) => plan.name === "Weight Loss"
+        );
+        console.log(overWeightDietPlan.description);
+        setDietPlansName(overWeightDietPlan.name);
+        setDietPlansDescription(overWeightDietPlan.description);
+      } else if (bmiValue >= 30.0) {
+        setHealthStatus("Obesity");
+
+        const obeseDietPlan = dietPlans.find((plan) => plan.name === "Obese");
+        console.log(obeseDietPlan.description);
+        setDietPlansName(obeseDietPlan.name);
+        setDietPlansDescription(obeseDietPlan.description);
+      }
+    };
+    calculateBMI();
+  }, [user]);
 
   //upload image function
   const uploadImage = (e) => {
@@ -329,7 +404,6 @@ const Profile = () => {
             )}
           </div>
           {/* nutrients details */}
-
           <div>
             <h1 className="font-bold text-gray-700 font-secondary text-xl">
               Nutritional Values of this food
@@ -397,6 +471,17 @@ const Profile = () => {
             )}
           </div>
         </div>
+      </div>
+
+      {/* diet plan */}
+      <div className="my-3 p-3">
+        <h1 className="font-secondary text-gray-600 font-bold text-2xl my-2">
+          Suggested Diet Plan by Zoodo
+        </h1>
+        <h2 className="font-primary font-xl text-white font-semibold mb-2 bg-primaryGreen p-2 rounded-md w-fit">
+          {dietPlansName}
+        </h2>
+        <p className="font-primary text-black">{dietPlansDescription}</p>
       </div>
 
       {/* food history */}
