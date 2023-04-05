@@ -302,7 +302,7 @@ const Profile = () => {
               type="file"
               accept="image/*"
               capture="camera"
-              className="textBox"
+              className="w-fit rounded-md border border-gray-400 px-2 py-2 outline-none font-primary"
               onChange={uploadImage}
               ref={fileInputRef}
             />
