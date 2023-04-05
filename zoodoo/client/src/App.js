@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import Shop from "./pages/Shop";
 import BuyFood from "./pages/BuyFood";
+import AboutUs from "./pages/AboutUs/AboutUs"
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/Admin" element={<Admin />} />
             <Route path="/Shop" element={<Shop />} />
             <Route path="/buyFood/:id" element={<BuyFood />} />
+            <Route path="/AboutUs" element={<AboutUs />} />
           </Routes>
           {/* footer */}
         </div>
