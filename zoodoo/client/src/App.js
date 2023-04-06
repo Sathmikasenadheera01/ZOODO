@@ -9,7 +9,7 @@ import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import Shop from "./pages/Shop";
 import BuyFood from "./pages/BuyFood";
-import AboutUs from "./pages/AboutUs/AboutUs"
+import AboutUs from "./pages/AboutUs"
 
 function App() {
   return (
