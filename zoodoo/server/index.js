@@ -36,13 +36,13 @@ app.use("/healthIssues", HealthIssuesRoute);
 const port = process.env.PORT || 5000;
 
 //connect to the database
-mongoose.connect(
-  "mongodb+srv://kulunu12:kulunu123@cluster0.kqc6kk4.mongodb.net/Cluster0?retryWrites=true&w=majority"
-);
-
 // mongoose.connect(
-//   "mongodb+srv://doadmin:S08134iY2BKgC6f5@zoodoo-db-4000f2e5.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=zoodoo-db"
+//   "mongodb+srv://kulunu12:kulunu123@cluster0.kqc6kk4.mongodb.net/Cluster0?retryWrites=true&w=majority"
 // );
+
+mongoose.connect(
+  "mongodb+srv://doadmin:S08134iY2BKgC6f5@zoodoo-db-4000f2e5.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=zoodoo-db"
+);
 
 //listen to port
 app.listen(port, () => {
