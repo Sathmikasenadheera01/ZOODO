@@ -1,10 +1,10 @@
 import React from 'react';
-import './css_pages/about_us.css';
-import St1 from './student1.jpg';
-import St2 from './student2.jpg';
-import St3 from './student3.jpg';
-import St4 from './student4.jpg';
-import St5 from './student5.jpg';
+import './about_us.css';
+import St1 from '../images/student1.jpg';
+import St2 from '../images/student2.jpg';
+import St3 from '../images/student3.jpg';
+import St4 from '../images/student4.jpg';
+import St5 from '../images/student5.jpg';
 
 function AboutUs() {
   return (
