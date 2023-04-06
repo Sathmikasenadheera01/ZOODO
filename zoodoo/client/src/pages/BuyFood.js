@@ -13,6 +13,7 @@ const BuyFood = () => {
   const userID = useGetUserID();
   const [nutrients, setNutrients] = useState([]);
   const [healthIssues, setHealthIssues] = useState("");
+  const [isModelLoading, setIsModelLoading] = useState(false);
 
   // model part
   const [prediction, setPrediction] = useState(
@@ -44,10 +45,12 @@ const BuyFood = () => {
   }, [id]);
 
   const loadModel = async () => {
+    setIsModelLoading(true);
     const model = await tf.loadLayersModel(
       "https://raw.githubusercontent.com/Sathmikasenadheera01/mltesting/master/zodoofoodclassification_model_tfjs/model.json"
     );
     setModel(model);
+    setIsModelLoading(false);
   };
 
   useEffect(() => {
@@ -210,6 +213,10 @@ const BuyFood = () => {
       }
     }
   };
+
+  if (isModelLoading) {
+    return <h2>Model Loading...</h2>;
+  }
 
   return (
     <div>
